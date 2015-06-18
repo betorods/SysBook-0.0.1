@@ -107,9 +107,9 @@
                                       <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="2" attributes="0">
-                                      <Component id="codUsuario" linkSize="6" alignment="2" min="-2" pref="67" max="-2" attributes="0"/>
-                                      <Component id="codLivro" linkSize="6" alignment="2" min="-2" pref="67" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="codLivro" min="-2" pref="67" max="-2" attributes="0"/>
+                                      <Component id="codUsuario" min="-2" pref="67" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -117,13 +117,13 @@
                                       <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="nomeUsuario" linkSize="9" alignment="1" min="-2" pref="318" max="-2" attributes="0"/>
-                                      <Component id="nomeLivro" linkSize="9" alignment="1" min="-2" pref="318" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="nomeUsuarioEscolhido" pref="304" max="32767" attributes="0"/>
+                                      <Component id="nomeLivro" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Component id="jButton9" linkSize="7" min="-2" max="-2" attributes="0"/>
+                                  <Component id="ConfimarEmprestimo" linkSize="7" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                                   <Component id="voltar" linkSize="7" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
@@ -133,17 +133,26 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="NomeUsuario" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="NomeUsuario" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                                              <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                              <Component id="StatusUsuario" min="-2" pref="82" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="dataEmprestimo" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
+                                      <Component id="dataEmprestimo" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jLabel11" max="32767" attributes="0"/>
                                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="dataDevolucao" min="-2" pref="71" max="-2" attributes="0"/>
                                       <Component id="codigoLivro" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="dataDevolucao" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -152,7 +161,7 @@
                                   <Component id="jScrollPane1" min="-2" pref="261" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="20" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -163,11 +172,13 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="NomeUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="codigoLivro" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="StatusUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -176,7 +187,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="dataEmprestimo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="dataEmprestimo" linkSize="10" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="dataDevolucao" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
@@ -187,9 +198,9 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="codUsuario" linkSize="10" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="nomeUsuario" linkSize="5" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="nomeUsuarioEscolhido" linkSize="5" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="codUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -200,7 +211,7 @@
                           </Group>
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jButton9" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="ConfimarEmprestimo" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="limpar" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="voltar" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton8" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -238,16 +249,6 @@
                     <Property name="text" type="java.lang.String" value="Data do Emprestimo"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="dataEmprestimo">
-                  <Properties>
-                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                      <Format format="##/##/####" subtype="-1" type="5"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dataEmprestimoActionPerformed"/>
-                  </Events>
-                </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane3">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -282,7 +283,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JTextField" name="codUsuario">
+                <Component class="javax.swing.JTextField" name="dataEmprestimo">
                   <Properties>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -297,10 +298,13 @@
                     <Property name="text" type="java.lang.String" value="Nome:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="nomeUsuario">
+                <Component class="javax.swing.JTextField" name="nomeUsuarioEscolhido">
                   <Properties>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nomeUsuarioEscolhidoActionPerformed"/>
+                  </Events>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane1">
                   <AuxValues>
@@ -352,21 +356,8 @@
                     <Property name="text" type="java.lang.String" value="Data devolu&#xe7;&#xe3;o:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="dataDevolucao">
-                  <Properties>
-                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                      <Format format="##/##/####" subtype="-1" type="5"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dataDevolucaoActionPerformed"/>
-                  </Events>
-                </Component>
                 <Component class="javax.swing.JButton" name="jButton8">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Alberto\Documents\NetBeansProjects\Projetos\icones\icons\cancel.png"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Cancelar"/>
                   </Properties>
                   <Events>
@@ -375,9 +366,6 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="limpar">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Alberto\Documents\NetBeansProjects\Projetos\icones\icons\paintbrush.png"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Limpar"/>
                   </Properties>
                   <Events>
@@ -386,24 +374,44 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="voltar">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Alberto\Documents\NetBeansProjects\Projetos\icones\icons\door_out.png"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Voltar"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="voltarActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton9">
+                <Component class="javax.swing.JButton" name="ConfimarEmprestimo">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Alberto\Documents\NetBeansProjects\Projetos\icones\icons\disk.png"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Confimar"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton9ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ConfimarEmprestimoActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JTextField" name="StatusUsuario">
+                  <Properties>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel6">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Status"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="codUsuario">
+                  <Properties>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="codUsuarioActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JTextField" name="dataDevolucao">
+                  <Properties>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dataDevolucaoActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -425,7 +433,7 @@
                               <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace pref="25" max="32767" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                       <Component id="jButton11" linkSize="8" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="voltar1" linkSize="8" min="-2" max="-2" attributes="0"/>
@@ -557,9 +565,6 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton10">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Alberto\Documents\NetBeansProjects\Projetos\icones\icons\cancel.png"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Cancelar"/>
                   </Properties>
                   <Events>
@@ -568,9 +573,6 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="limpar1">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Alberto\Documents\NetBeansProjects\Projetos\icones\icons\paintbrush.png"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Limpar"/>
                   </Properties>
                   <Events>
@@ -579,9 +581,6 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="voltar1">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Alberto\Documents\NetBeansProjects\Projetos\icones\icons\door_out.png"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Voltar"/>
                   </Properties>
                   <Events>
@@ -590,9 +589,6 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton11">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="C:\Users\Alberto\Documents\NetBeansProjects\Projetos\icones\icons\disk.png"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Confimar"/>
                   </Properties>
                   <Events>

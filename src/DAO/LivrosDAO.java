@@ -24,18 +24,20 @@ public class LivrosDAO {
         }
     
         public void inserirLivros(Livros livros) {
+            int aux = 1;
             try {
                   PreparedStatement preStat;
-                  preStat = conecta.connection.prepareStatement("Insert into tblivro(titulo,autor,edicao,editora,ano) values(?,?,?,?,?)");
+                  preStat = conecta.connection.prepareStatement("Insert into tblivro(titulo,autor,edicao,editora,ano,curso,emprestimo) values(?,?,?,?,?,?,?)");
                   preStat.setString(1, livros.getTitulo());
                   preStat.setString(2, livros.getAutor());
                   preStat.setString(3, livros.getEdicao());
                   preStat.setString(4, livros.getEditora());
                   preStat.setString(5, livros.getAno());
-                  
+                  preStat.setString(6, livros.getCurso());
+                  preStat.setInt(7, aux);
                   preStat.execute();
                        
-                  JOptionPane.showMessageDialog(null, "Dados salvos com sucesso!");
+                  JOptionPane.showMessageDialog(null, "Cadastro relizado com sucesso!");
         
             }
                 catch (SQLException e){  

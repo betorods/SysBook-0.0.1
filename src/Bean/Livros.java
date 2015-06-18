@@ -9,17 +9,19 @@ public class Livros {
     private String edicao;
     private String editora;
     private String ano;
+    private String curso;
     
     public Livros(){
         
     }
 
-    public Livros(String autor, String titulo, String edicao, String editora, String ano) {
+    public Livros(String autor, String titulo, String edicao, String editora, String ano,String curso) {
         this.autor = autor;
         this.titulo = titulo;
         this.edicao = edicao;
         this.editora = editora;
         this.ano = ano;
+        this.curso = curso;
     }
 
     public String getAutor() {
@@ -60,6 +62,14 @@ public class Livros {
 
     public void setAno(String ano) {
         this.ano = ano;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    public void setCurso(String curso) {
+        this.curso = curso;
     }
 
     

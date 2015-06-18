@@ -3,24 +3,24 @@ package Bean;
  *
  * @author Alberto
  */
-public class Usuario
-{
-   private String nome;
-   private String endereco;
-   private String cidade;
-   private String estado;
-   private String telefone;
-   private String cpf;
+public class Usuario{
+   public String nome;
+   public String endereco;
+   public String cidade;
+   public String estado;
+   public String telCelular;
+   public String cpf;
+   private String status;
   
         
-    public Usuario(String nome, String endereco, String cidade, String estado, String telefone, String cpf) {
+    public Usuario(String nome, String endereco, String cidade, String estado, String telefone, String cpf, String status) {
         this.nome = nome;
         this.cpf = cpf;
         this.endereco = endereco;
         this.cidade = cidade;
         this.estado = estado;
-        this.telefone = telefone;
-        
+        this.telCelular = telCelular;
+        this.status = status;
     } 
     public Usuario(){
     
@@ -67,12 +67,12 @@ public class Usuario
       this.estado = estado;
    }
 
-    public String getTelefone() {
-        return telefone;
+    public String getTelCelular() {
+        return telCelular;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setTelCelular(String telCelular) {
+        this.telCelular = telCelular;
     }
 
     public String getCpf() {
@@ -81,5 +81,37 @@ public class Usuario
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+   /* public void buildNome(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void buildEndereco(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void buildCidade(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void buildtelCelular(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void buildCpf(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void buildEstado(String toString) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }*/
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

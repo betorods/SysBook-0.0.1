@@ -6,6 +6,7 @@
 
 package view;
 
+import EmailObeserver.ObserverConcreto;
 import javax.swing.JOptionPane;
 
 /**
@@ -51,12 +52,20 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        passTexto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                passTextoMouseClicked(evt);
+            }
+        });
         passTexto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passTextoActionPerformed(evt);
             }
         });
         passTexto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passTextoKeyPressed(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 passTextoKeyTyped(evt);
             }
@@ -107,8 +116,6 @@ public class login extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 3, 36)); // NOI18N
         jLabel3.setText("Sistema Bibliotecário");
-
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\SistemaBibliotecario\\imagens\\livros3.png")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -219,8 +226,29 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_okKeyTyped
 
     private void passTextoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passTextoKeyTyped
-
+        
     }//GEN-LAST:event_passTextoKeyTyped
+
+    private void passTextoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passTextoKeyPressed
+        
+    }//GEN-LAST:event_passTextoKeyPressed
+
+    private void passTextoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passTextoMouseClicked
+               String campotexto = loginTexto.getText();
+        String pass = passTexto.getText();
+        //    char login;
+        if((campotexto.equals("admin")) && (pass.equals("123")) ) {
+            new TelaPrincipal().show();
+            this.setVisible(false);
+            dispose();
+            //   JOptionPane.showMessageDialog(null,"Você "+ loginTexto.getText()+ " Se logou");
+     }
+        else{
+            JOptionPane.showMessageDialog(null,"Você errou tente novamente!!!");
+            loginTexto.setText("");
+            passTexto.setText("");
+        }
+    }//GEN-LAST:event_passTextoMouseClicked
 
     /**
      * @param args the command line arguments

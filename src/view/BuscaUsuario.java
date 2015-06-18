@@ -30,7 +30,7 @@ public class BuscaUsuario extends javax.swing.JFrame {
      
     }
     public void listarUsuario(){
-        String sql = "Select codigo, nome, cpf, endereco from TBusuario order by codigo Asc"; // order by codigo Desc ou Asc para ordenar
+        String sql = "Select id_usuario, nome, cpf, endereco from TBusuario order by id_usuario Asc"; // order by codigo Desc ou Asc para ordenar
         try{
             pst = conecta.prepareStatement(sql);
             
@@ -43,7 +43,7 @@ public class BuscaUsuario extends javax.swing.JFrame {
     }
    
     public void pesquisaUsuario(){
-        String sql ="Select codigo, nome, cpf, endereco from TBusuario where nome like ?" ;
+        String sql ="Select id_usuario, nome, cpf, endereco from TBusuario where nome like ?" ;
         
         try{
             pst = conecta.prepareStatement(sql);
@@ -60,7 +60,7 @@ public class BuscaUsuario extends javax.swing.JFrame {
     }
     
     public void pesquisaUsuarioCpf(){
-        String sql ="Select codigo, nome, cpf, endereco from TBusuario where cpf like ?" ;
+        String sql ="Select id_usuario, nome, cpf, endereco from TBusuario where cpf like ?" ;
         
         try{
             pst = conecta.prepareStatement(sql);
@@ -76,7 +76,7 @@ public class BuscaUsuario extends javax.swing.JFrame {
     }
     
     public void pesquisaUsuarioCodigo(){
-        String sql ="Select codigo, nome, cpf, endereco from TBusuario where codigo like ?" ;
+        String sql ="Select id_usuario, nome, cpf, endereco from TBusuario where id_usuario like ?" ;
         
         try{
             pst = conecta.prepareStatement(sql);
@@ -166,7 +166,7 @@ public class BuscaUsuario extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(TabelaUsuario);
 
-        voltar1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\door_out.png")); // NOI18N
+        voltar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/door_out.png"))); // NOI18N
         voltar1.setText("Voltar");
         voltar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,7 +174,7 @@ public class BuscaUsuario extends javax.swing.JFrame {
             }
         });
 
-        limpar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\paintbrush.png")); // NOI18N
+        limpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/paintbrush.png"))); // NOI18N
         limpar.setText("Limpar");
         limpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,7 +182,7 @@ public class BuscaUsuario extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\cancel.png")); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/cancel.png"))); // NOI18N
         jButton3.setText("Cancelar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,7 +190,7 @@ public class BuscaUsuario extends javax.swing.JFrame {
             }
         });
 
-        salvar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\disk.png")); // NOI18N
+        salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/disk.png"))); // NOI18N
         salvar.setText("Editar");
         salvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

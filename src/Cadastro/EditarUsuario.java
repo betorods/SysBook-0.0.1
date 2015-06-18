@@ -28,7 +28,7 @@ public class EditarUsuario extends javax.swing.JFrame {
 //Classes de comandos
  
     public void pesquisaUsuario(){
-        String sql ="Select codigo, nome,dataNasc,localNasc,cpf,rg,telFixo,telCelular,mae,pai,endereco,bairro,cep,cidade,sexo,estado from TBusuario where codigo like ?" ;
+        String sql ="Select id_usuario, nome,dataNasc,localNasc,cpf,rg,telFixo,telCelular,mae,pai,endereco,bairro,cep,cidade,sexo,estado from TBusuario where id_usuario like ?" ;
         
         try{
             pst = conecta.prepareStatement(sql);
@@ -74,10 +74,6 @@ public class EditarUsuario extends javax.swing.JFrame {
         rg = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        mae = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
-        pai = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         localNasc = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -144,10 +140,6 @@ public class EditarUsuario extends javax.swing.JFrame {
         jLabel10.setText("RG:");
 
         jLabel11.setText("Cidade:");
-
-        jLabel16.setText("Nome da Mãe:");
-
-        jLabel17.setText("Nome do Pai:");
 
         jLabel18.setText("Local de Nascimento:");
 
@@ -279,26 +271,21 @@ public class EditarUsuario extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel16)
-                                    .addComponent(mae, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel17)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(11, 11, 11)
-                                        .addComponent(jLabel10)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(rg, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(telCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(telFixo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(11, 11, 11)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(rg, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(telCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(telFixo, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -308,7 +295,6 @@ public class EditarUsuario extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(id_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(pai, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel3)
@@ -324,36 +310,38 @@ public class EditarUsuario extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(25, 25, 25))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(deletarUsuario)
-                        .addGap(28, 28, 28)
-                        .addComponent(voltar)
-                        .addGap(29, 29, 29)
-                        .addComponent(limpar)
-                        .addGap(33, 33, 33)
-                        .addComponent(jButton2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cidade, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
-                            .addComponent(bairro, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(endereco, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(enderecoProfessor)
-                            .addComponent(jLabel11))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(deletarUsuario)
+                                .addGap(28, 28, 28)
+                                .addComponent(voltar)
+                                .addGap(29, 29, 29)
+                                .addComponent(limpar)
+                                .addGap(33, 33, 33)
+                                .addComponent(jButton2)
+                                .addGap(5, 5, 5))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(estado, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGap(52, 52, 52))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(cep)
-                                .addGap(25, 25, 25))))))
+                                    .addComponent(cidade, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(bairro, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(endereco, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(enderecoProfessor)
+                                    .addComponent(jLabel11))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(estado, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)))
+                                        .addGap(52, 52, 52))
+                                    .addComponent(cep))))
+                        .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
                 .addGap(217, 217, 217)
                 .addComponent(jLabel5)
@@ -367,7 +355,7 @@ public class EditarUsuario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(id_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -398,14 +386,6 @@ public class EditarUsuario extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mae, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel17)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(enderecoProfessor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(endereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -432,13 +412,13 @@ public class EditarUsuario extends javax.swing.JFrame {
                     .addComponent(limpar)
                     .addComponent(jButton2)
                     .addComponent(deletarUsuario))
-                .addGap(20, 20, 20))
+                .addGap(5, 5, 5))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     public void EditarUsuario2(){
-        String sql = " Update TBusuario set nome = ?,dataNasc = ?,localNasc = ?,cpf = ?,rg = ?,telFixo = ?,telCelular = ?,mae = ?,pai= ?,endereco = ?,bairro = ?,cep = ?,cidade = ?,sexo = ?,estado = ? WHERE codigo = ?";
+        String sql = " Update tbusuario set nome = ?,dataNasc = ?,localNasc = ?,cpf = ?,rg = ?,telFixo = ?,telCelular = ?,mae = ?,pai= ?,endereco = ?,bairro = ?,cep = ?,cidade = ?,sexo = ?,estado = ? WHERE id_usuario = ?";
         try{
             pst = conecta.prepareStatement(sql);
             
@@ -449,14 +429,12 @@ public class EditarUsuario extends javax.swing.JFrame {
             pst.setString(5, rg.getText());
             pst.setString(6, telFixo.getText());
             pst.setString(7, telCelular.getText());
-            pst.setString(8, mae.getText());
-            pst.setString(9, pai.getText());
-            pst.setString(10, endereco.getText());
-            pst.setString(11, bairro.getText());
-            pst.setString(12, cep.getText());
-            pst.setString(13, cidade.getText());
-            pst.setString(14, Sexo.getText());
-            pst.setString(15, estado.getText());
+            pst.setString(8, endereco.getText());
+            pst.setString(9, bairro.getText());
+            pst.setString(10, cep.getText());
+            pst.setString(11, cidade.getText());
+            pst.setString(12, Sexo.getText());
+            pst.setString(13, estado.getText());
             pst.setInt(16,Integer.parseInt(id_usuario.getText()));
 
            
@@ -481,14 +459,12 @@ public class EditarUsuario extends javax.swing.JFrame {
            rg.setText(tabEditar.getModel().getValueAt(seleciona,5).toString());
            telFixo.setText(tabEditar.getModel().getValueAt(seleciona,6).toString());
            telCelular.setText(tabEditar.getModel().getValueAt(seleciona,7).toString());
-           mae.setText(tabEditar.getModel().getValueAt(seleciona,8).toString());
-           pai.setText(tabEditar.getModel().getValueAt(seleciona,9).toString());
-           endereco.setText(tabEditar.getModel().getValueAt(seleciona,10).toString());
-           bairro.setText(tabEditar.getModel().getValueAt(seleciona,11).toString());
-           cep.setText(tabEditar.getModel().getValueAt(seleciona,12).toString());
-           cidade.setText(tabEditar.getModel().getValueAt(seleciona,13).toString());
-           Sexo.setText(tabEditar.getModel().getValueAt(seleciona,14).toString());
-           estado.setText(tabEditar.getModel().getValueAt(seleciona,15).toString());
+           endereco.setText(tabEditar.getModel().getValueAt(seleciona,8).toString());
+           bairro.setText(tabEditar.getModel().getValueAt(seleciona,9).toString());
+           cep.setText(tabEditar.getModel().getValueAt(seleciona,10).toString());
+           cidade.setText(tabEditar.getModel().getValueAt(seleciona,11).toString());
+           Sexo.setText(tabEditar.getModel().getValueAt(seleciona,12).toString());
+           estado.setText(tabEditar.getModel().getValueAt(seleciona,13).toString());
          /*   
             pst.setString(14, Sex);
             pst.setString(15, estados.getSelectedItem().toString());*/
@@ -496,7 +472,7 @@ public class EditarUsuario extends javax.swing.JFrame {
     }
     
     public void deletarUsuario(){
-        String sql = "Delete from tbusuario where codigo = ?";
+        String sql = "Delete from tbusuario where id_usuario = ?";
         
         try{
             pst = conecta.prepareStatement(sql);
@@ -519,8 +495,6 @@ public class EditarUsuario extends javax.swing.JFrame {
         rg.setText("");
         telCelular.setText("");
         telFixo.setText("");
-        mae.setText("");
-        pai.setText("");
         endereco.setText("");
         bairro.setText("");
         cep.setText("");
@@ -646,8 +620,6 @@ public class EditarUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -660,10 +632,8 @@ public class EditarUsuario extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton limpar;
     private javax.swing.JTextField localNasc;
-    private javax.swing.JTextField mae;
     private javax.swing.JTextField nome;
     private javax.swing.JLabel nomeProfessor;
-    private javax.swing.JTextField pai;
     private javax.swing.JTextField rg;
     private javax.swing.JTable tabEditar;
     private javax.swing.JFormattedTextField telCelular;

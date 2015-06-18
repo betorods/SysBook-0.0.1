@@ -163,7 +163,7 @@
     <Component class="javax.swing.JButton" name="voltar1">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Alberto\Documents\NetBeansProjects\Projetos\icones\icons\door_out.png"/>
+          <Image iconType="3" name="/Imagens/door_out.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Voltar"/>
       </Properties>
@@ -174,7 +174,7 @@
     <Component class="javax.swing.JButton" name="limpar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Alberto\Documents\NetBeansProjects\Projetos\icones\icons\paintbrush.png"/>
+          <Image iconType="3" name="/Imagens/paintbrush.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Limpar"/>
       </Properties>
@@ -185,7 +185,7 @@
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Alberto\Documents\NetBeansProjects\Projetos\icones\icons\cancel.png"/>
+          <Image iconType="3" name="/Imagens/cancel.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
@@ -196,7 +196,7 @@
     <Component class="javax.swing.JButton" name="salvar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Alberto\Documents\NetBeansProjects\Projetos\icones\icons\disk.png"/>
+          <Image iconType="3" name="/Imagens/disk.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Editar"/>
       </Properties>

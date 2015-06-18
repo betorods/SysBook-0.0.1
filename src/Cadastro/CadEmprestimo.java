@@ -1,8 +1,10 @@
 package Cadastro;
+
 /**
  *
  * @author Alberto
  */
+import Bean.Usuario;
 import Util.Conexao;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +15,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import EmailObeserver.ObserverConcreto;
+import Function.PegarHora;
+import strategy.GerenciaStrategy;
 
 public class CadEmprestimo extends javax.swing.JFrame {
 
@@ -25,206 +30,237 @@ public class CadEmprestimo extends javax.swing.JFrame {
     ResultSet rs;
     ResultSet rs1;
 
-    
     public CadEmprestimo() throws ClassNotFoundException {
         initComponents();
         conecta = Conexao.conexao();
+        PegarHora hora = new PegarHora();
+        String aux = hora.Hora();
+        dataEmprestimo.setText(aux);
+
     }
-    
-    public void mostraItens(){
-            int seleciona = tabEmpUsuario.getSelectedRow();
-            codUsuario.setText(tabEmpUsuario.getModel().getValueAt(seleciona,0).toString());
-            nomeUsuario.setText(tabEmpUsuario.getModel().getValueAt(seleciona,1).toString());
-        }
-     
-    public void mostraItensLivro(){
-            int seleciona = tabEmpLivro.getSelectedRow();
-            codLivro.setText(tabEmpLivro.getModel().getValueAt(seleciona,0).toString());
-            nomeLivro.setText(tabEmpLivro.getModel().getValueAt(seleciona,1).toString());
-        }
-        
-    public void mostraItensEmprestimo(){
-            int seleciona = tabDevolucao.getSelectedRow();
-            
-            codigoUsuarioDevolucao.setText(tabDevolucao.getModel().getValueAt(seleciona,0).toString());
-            codigoLivroDevolucao.setText(tabDevolucao.getModel().getValueAt(seleciona,1).toString());
-          //  dataEntrega.setText(tabDevolucao.getModel().getValueAt(seleciona,4).toString());
+
+    public void mostraItens() {
+        int seleciona = tabEmpUsuario.getSelectedRow();
+        codUsuario.setText(tabEmpUsuario.getModel().getValueAt(seleciona, 0).toString());
+        nomeUsuarioEscolhido.setText(tabEmpUsuario.getModel().getValueAt(seleciona, 1).toString());
+        StatusUsuario.setText(tabEmpUsuario.getModel().getValueAt(seleciona, 2).toString());
     }
-        
-    public void disponivel(){
-        String sql = "Select *from TBlivro where id_Livro =? and emprestimo = ?" ;
+
+    /* public String StatusDoUsuario() {
+     String aux = null;
+     aux = StatusUsuario.getText();
+     //JOptionPane.showMessageDialog(null, aux);
+     return aux;
+     } */
+    public void mostraItensLivro() {
+        int seleciona = tabEmpLivro.getSelectedRow();
+        codLivro.setText(tabEmpLivro.getModel().getValueAt(seleciona, 0).toString());
+        nomeLivro.setText(tabEmpLivro.getModel().getValueAt(seleciona, 1).toString());
+    }
+
+    public void mostraItensEmprestimo() {
+        int seleciona = tabDevolucao.getSelectedRow();
+
+        codigoUsuarioDevolucao.setText(tabDevolucao.getModel().getValueAt(seleciona, 0).toString());
+        codigoLivroDevolucao.setText(tabDevolucao.getModel().getValueAt(seleciona, 1).toString());
+        //  dataEntrega.setText(tabDevolucao.getModel().getValueAt(seleciona,4).toString());
+    }
+
+   /* public void Strategy() {
+        String status;
+        //   GerenciaStrategy gerencia = new GerenciaStrategy();
+    }*/
+
+    public void disponivel() {
+        String sql = "Select *from TBlivro where id_Livro =? and emprestimo = ?";
         String aux = "1";
-        try{
+        try {
             pst = conecta.prepareStatement(sql);
             pst.setString(1, codigoLivro.getText());
             pst.setString(2, aux);
-            
+
             rs = pst.executeQuery();
-            if (rs.next()){
-                JOptionPane.showMessageDialog(null,"Disponivel. ");
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Disponivel. ");
                 mostraItensLivro();
-            }else{
-                JOptionPane.showMessageDialog(null,"Livro emprestado. ");
+            } else {
+                JOptionPane.showMessageDialog(null, "Livro emprestado. ");
                 codLivro.setText("");
                 nomeLivro.setText("");
             }
-        }
-        catch(SQLException error){
-            JOptionPane.showMessageDialog(null, error);
-        }
-   }
-    
-    public void atualizarEmprestimo(){
-     String sql = "Update TBlivro set emprestimo = ? where id_Livro = ?";
-     aux = "0";
-        try{
-            pst = conecta.prepareStatement(sql);
-            pst.setString(1,aux); 
-            pst.setInt(2,Integer.parseInt(codigoLivro.getText()));
-            pst.execute();
-        } catch(SQLException error){
-            JOptionPane.showMessageDialog(null, error);
-        }
-    }
-    
-    public void atualizarDevolucao(){
-     String sql = "Update TBlivro set emprestimo = ? where id_Livro = ?";
-     aux = "1";
-        try{
-            pst = conecta.prepareStatement(sql);
-            pst.setString(1,aux); 
-            pst.setInt(2,Integer.parseInt(codigoLivroDevolucao.getText()));
-            pst.execute();
-        //    JOptionPane.showMessageDialog(null,aux + "Test");
-        } catch(SQLException error){
-            JOptionPane.showMessageDialog(null, error);
-        }
-    }
-    
-    public void pesquisaUsuario(){
-        String sql = "Select id_usuario, nome from TBusuario where nome like ?" ;
-        
-        try{
-            pst = conecta.prepareStatement(sql);
-            pst.setString(1,NomeUsuario.getText()+"%");// %para quando apagar trazer de volta as informações do BD.
-            
-            rs = pst.executeQuery();
-            tabEmpUsuario.setModel(DbUtils.resultSetToTableModel(rs));
-            
-        }
-        catch(SQLException error){
-            JOptionPane.showMessageDialog(null, error);
-        }
-    }
-    
-    public void pesquisaLivro(){
-        String sql = "Select id_livro, titulo from TBlivro where id_livro like ?" ;
-        
-        try{
-            pst = conecta.prepareStatement(sql);
-            pst.setString(1,codigoLivro.getText()+"%");// %para quando apagar trazer de volta as informações do BD.
-            
-            rs = pst.executeQuery();
-            tabEmpLivro.setModel(DbUtils.resultSetToTableModel(rs));
-            
-        }
-        catch(SQLException error){
-            JOptionPane.showMessageDialog(null, error);
-        }
-    }
-    
-    public void pesquisaEmprestimo(){
-        String sql = "Select id_usuario, id_livro, dataEmprestimo, dataDevolucao, dataEntrega from tbemprestimo where id_usuario like ?" ;
-        
-        try{
-            pst = conecta.prepareStatement(sql);
-            pst.setString(1,codigoUsuarioDevolucao.getText()+"%");// %para quando apagar trazer de volta as informações do BD.
-            
-            rs = pst.executeQuery();
-            tabDevolucao.setModel(DbUtils.resultSetToTableModel(rs));
-            
-        }
-        catch(SQLException error){
+        } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, error);
         }
     }
 
-    public void Emprestimo(){
-       
-        String sql = "Insert into tbemprestimo(id_usuario, id_livro, dataEmprestimo, dataDevolucao) values(?,?,?,?)";
-      //  String aux = "0";
-        try{
+    public void StatusUsuario() {
+        int seleciona = tabEmpUsuario.getSelectedRow();
+        dataEmprestimo.setText(tabEmpUsuario.getModel().getValueAt(seleciona, 0).toString());
+        nomeUsuarioEscolhido.setText(tabEmpUsuario.getModel().getValueAt(seleciona, 1).toString());
+
+    }
+
+    public void atualizarEmprestimo() {
+        String sql = "Update TBlivro set emprestimo = ? where id_Livro = ?";
+        aux = "0";
+        try {
             pst = conecta.prepareStatement(sql);
-            
+            pst.setString(1, aux);
+            pst.setInt(2, Integer.parseInt(codigoLivro.getText()));
+            pst.execute();
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error);
+        }
+    }
+
+    public void atualizarDevolucao() {
+        String sql = "Update TBlivro set emprestimo = ? where id_Livro = ?";
+        aux = "1";
+        try {
+            pst = conecta.prepareStatement(sql);
+            pst.setString(1, aux);
+            pst.setInt(2, Integer.parseInt(codigoLivroDevolucao.getText()));
+            pst.execute();
+            //    JOptionPane.showMessageDialog(null,aux + "Test");
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error);
+        }
+    }
+
+    public void pesquisaUsuario() {
+        String sql = "Select id_usuario, nome, Status from TBusuario where nome like ?";
+
+        try {
+            pst = conecta.prepareStatement(sql);
+            pst.setString(1, NomeUsuario.getText() + "%");// %para quando apagar trazer de volta as informações do BD.
+
+            rs = pst.executeQuery();
+            tabEmpUsuario.setModel(DbUtils.resultSetToTableModel(rs));
+
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error);
+        }
+    }
+
+    public void pesquisaLivro() {
+        String sql = "Select id_livro, titulo from TBlivro where id_livro like ?";
+
+        try {
+            pst = conecta.prepareStatement(sql);
+            pst.setString(1, codigoLivro.getText() + "%");// %para quando apagar trazer de volta as informações do BD.
+
+            rs = pst.executeQuery();
+            tabEmpLivro.setModel(DbUtils.resultSetToTableModel(rs));
+
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error);
+        }
+    }
+
+    public void pesquisaEmprestimo() {
+        String sql = "Select id_usuario, id_livro, dataEmprestimo, dataDevolucao, dataEntrega from tbemprestimo where id_usuario like ?";
+
+        try {
+            pst = conecta.prepareStatement(sql);
+            pst.setString(1, codigoUsuarioDevolucao.getText() + "%");// %para quando apagar trazer de volta as informações do BD.
+
+            rs = pst.executeQuery();
+            tabDevolucao.setModel(DbUtils.resultSetToTableModel(rs));
+
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error);
+        }
+    }
+
+    public void Emprestimo() {
+
+        String sql = "Insert into tbemprestimo(id_usuario, id_livro, dataEmprestimo, dataDevolucao) values(?,?,?,?)";
+        // String aux = "0";
+        try {
+            pst = conecta.prepareStatement(sql);
+
             pst.setString(1, codUsuario.getText());
             pst.setString(2, codLivro.getText());
             pst.setString(3, dataEmprestimo.getText());
             pst.setString(4, dataDevolucao.getText());
-          //  pst.setString(5, aux);            
+            //   pst.setString(5, aux);            
             pst.execute();
-            JOptionPane.showMessageDialog(null, "Emprestimo realizado com sucesso!","Emprestimo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Emprestimo realizado com sucesso!", "Emprestimo", JOptionPane.INFORMATION_MESSAGE);
             atualizarEmprestimo();
             //     editar();
-     
-        }
-        catch(SQLException error){
+            new ObserverConcreto().mensagem();
+
+        } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, error);
         }
-            
+
     }
-     
-    public void editar(){
-       
+
+    public void editar() {
+
         String sql1 = "Update tblivro set codigo_usuario = ? where id_Livro = ?";
-        try{
+        try {
             pst = conecta.prepareStatement(sql1);
-            pst.setInt(1,Integer.parseInt(codUsuario.getText()));
-            
+            pst.setInt(1, Integer.parseInt(dataEmprestimo.getText()));
+
             pst.execute();
-           JOptionPane.showMessageDialog(null, codUsuario + "Cadastrado com sucesso!","Cadastro com sucesso", JOptionPane.INFORMATION_MESSAGE);
-        }
-        catch(SQLException error){
+            JOptionPane.showMessageDialog(null, dataEmprestimo + "Cadastrado com sucesso!", "Cadastro com sucesso", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, error);
         }
-     }
-     
-    public void devolver(){
+    }
+
+    public void devolver() {
         String sql = "Update tbemprestimo set id_livro = ?, dataEntrega = ? where id_usuario = ?";
-        try{
+        try {
             pst = conecta.prepareStatement(sql);
-            
-            pst.setInt(1,Integer.parseInt( codigoLivroDevolucao.getText()));
+
+            pst.setInt(1, Integer.parseInt(codigoLivroDevolucao.getText()));
             pst.setString(2, dataEntrega.getText());
-            pst.setInt(3,Integer.parseInt(codigoUsuarioDevolucao.getText()));
-            
+            pst.setInt(3, Integer.parseInt(codigoUsuarioDevolucao.getText()));
+
             pst.execute();
-            JOptionPane.showMessageDialog(null, "Devolução feita com sucesso!","Devolução", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Devolução feita com sucesso!", "Devolução", JOptionPane.INFORMATION_MESSAGE);
             atualizarDevolucao();
-        }
-        catch(SQLException error){
+        } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, error);
         }
-     }
-     
-    public void verificador(){
-        String sql = "Select *from tbemprestimo where dataEntrega = ?" ;
-        try{
+    }
+
+    public void verificador() {
+        String sql = "Select *from tbemprestimo where dataEntrega = ?";
+        try {
             pst = conecta.prepareStatement(sql);
             pst.setString(1, dataEntrega.getText());
-            
+
             rs = pst.executeQuery();
-            if (rs.next()){
-                JOptionPane.showMessageDialog(null,"Já devolvido. ");
-            }else{
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Já devolvido. ");
+            } else {
                 devolver();
             }
-        }
-        catch(SQLException error){
+        } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, error);
         }
-     }
+    }
 
-    
+    public void limpar() {
+        NomeUsuario.setText("");
+        codigoLivro.setText("");
+        codLivro.setText("");
+        dataEmprestimo.setText("");
+        nomeUsuarioEscolhido.setText("");
+        codUsuario.setText("");
+        nomeLivro.setText("");
+        StatusUsuario.setText("");
+        dataDevolucao.setText("");
+        dataEntrega.setText("");
+      
+        codigoUsuarioDevolucao.setText("");
+        codigoLivroDevolucao.setText("");
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -238,13 +274,12 @@ public class CadEmprestimo extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         codigoLivro = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        dataEmprestimo = new javax.swing.JFormattedTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabEmpUsuario = new javax.swing.JTable();
-        codUsuario = new javax.swing.JTextField();
+        dataEmprestimo = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        nomeUsuario = new javax.swing.JTextField();
+        nomeUsuarioEscolhido = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabEmpLivro = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
@@ -252,11 +287,14 @@ public class CadEmprestimo extends javax.swing.JFrame {
         nomeLivro = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        dataDevolucao = new javax.swing.JFormattedTextField();
         jButton8 = new javax.swing.JButton();
         limpar = new javax.swing.JButton();
         voltar = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        ConfimarEmprestimo = new javax.swing.JButton();
+        StatusUsuario = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        codUsuario = new javax.swing.JTextField();
+        dataDevolucao = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         codigoUsuarioDevolucao = new javax.swing.JTextField();
@@ -306,17 +344,6 @@ public class CadEmprestimo extends javax.swing.JFrame {
 
         jLabel2.setText("Data do Emprestimo");
 
-        try {
-            dataEmprestimo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        dataEmprestimo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dataEmprestimoActionPerformed(evt);
-            }
-        });
-
         tabEmpUsuario.setAutoCreateRowSorter(true);
         tabEmpUsuario.setBorder(new javax.swing.border.MatteBorder(null));
         tabEmpUsuario.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
@@ -331,13 +358,18 @@ public class CadEmprestimo extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tabEmpUsuario);
 
-        codUsuario.setEnabled(false);
+        dataEmprestimo.setEnabled(false);
 
         jLabel7.setText("Codigo do Usuario:");
 
         jLabel8.setText("Nome:");
 
-        nomeUsuario.setEnabled(false);
+        nomeUsuarioEscolhido.setEnabled(false);
+        nomeUsuarioEscolhido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nomeUsuarioEscolhidoActionPerformed(evt);
+            }
+        });
 
         tabEmpLivro.setAutoCreateRowSorter(true);
         tabEmpLivro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -358,18 +390,6 @@ public class CadEmprestimo extends javax.swing.JFrame {
 
         jLabel11.setText("Data devolução:");
 
-        try {
-            dataDevolucao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        dataDevolucao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dataDevolucaoActionPerformed(evt);
-            }
-        });
-
-        jButton8.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\cancel.png")); // NOI18N
         jButton8.setText("Cancelar");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -377,7 +397,6 @@ public class CadEmprestimo extends javax.swing.JFrame {
             }
         });
 
-        limpar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\paintbrush.png")); // NOI18N
         limpar.setText("Limpar");
         limpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -385,7 +404,6 @@ public class CadEmprestimo extends javax.swing.JFrame {
             }
         });
 
-        voltar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\door_out.png")); // NOI18N
         voltar.setText("Voltar");
         voltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -393,11 +411,28 @@ public class CadEmprestimo extends javax.swing.JFrame {
             }
         });
 
-        jButton9.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\disk.png")); // NOI18N
-        jButton9.setText("Confimar");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        ConfimarEmprestimo.setText("Confimar");
+        ConfimarEmprestimo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                ConfimarEmprestimoActionPerformed(evt);
+            }
+        });
+
+        StatusUsuario.setEnabled(false);
+
+        jLabel6.setText("Status");
+
+        codUsuario.setEnabled(false);
+        codUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                codUsuarioActionPerformed(evt);
+            }
+        });
+
+        dataDevolucao.setEnabled(false);
+        dataDevolucao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dataDevolucaoActionPerformed(evt);
             }
         });
 
@@ -413,19 +448,19 @@ public class CadEmprestimo extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(jLabel7))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(codUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(codLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(codLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(codUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel10))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nomeUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nomeLivro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nomeUsuarioEscolhido, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+                            .addComponent(nomeLivro)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton9)
+                        .addComponent(ConfimarEmprestimo)
                         .addGap(46, 46, 46)
                         .addComponent(voltar)
                         .addGap(59, 59, 59)
@@ -434,28 +469,30 @@ public class CadEmprestimo extends javax.swing.JFrame {
                         .addComponent(jButton8))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(NomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(NomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4))
+                                .addGap(27, 27, 27)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(StatusUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel2)
-                            .addComponent(dataEmprestimo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(136, 136, 136)
+                            .addComponent(dataEmprestimo, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3)
-                            .addComponent(dataDevolucao, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(codigoLivro)))
+                            .addComponent(codigoLivro)
+                            .addComponent(dataDevolucao)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {codLivro, codUsuario});
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton8, jButton9, limpar, voltar});
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {nomeLivro, nomeUsuario});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {ConfimarEmprestimo, jButton8, limpar, voltar});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -463,11 +500,13 @@ public class CadEmprestimo extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(codigoLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(codigoLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(StatusUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -483,9 +522,9 @@ public class CadEmprestimo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(codUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(nomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nomeUsuarioEscolhido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(codUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -494,16 +533,16 @@ public class CadEmprestimo extends javax.swing.JFrame {
                     .addComponent(nomeLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton9)
+                    .addComponent(ConfimarEmprestimo)
                     .addComponent(limpar)
                     .addComponent(voltar)
                     .addComponent(jButton8))
                 .addContainerGap())
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {nomeLivro, nomeUsuario});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {nomeLivro, nomeUsuarioEscolhido});
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {codLivro, codUsuario});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {codLivro, dataEmprestimo});
 
         jTabbedPane1.addTab("Emprestar", jPanel2);
 
@@ -547,7 +586,6 @@ public class CadEmprestimo extends javax.swing.JFrame {
             }
         });
 
-        jButton10.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\cancel.png")); // NOI18N
         jButton10.setText("Cancelar");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -555,7 +593,6 @@ public class CadEmprestimo extends javax.swing.JFrame {
             }
         });
 
-        limpar1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\paintbrush.png")); // NOI18N
         limpar1.setText("Limpar");
         limpar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -563,7 +600,6 @@ public class CadEmprestimo extends javax.swing.JFrame {
             }
         });
 
-        voltar1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\door_out.png")); // NOI18N
         voltar1.setText("Voltar");
         voltar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -571,7 +607,6 @@ public class CadEmprestimo extends javax.swing.JFrame {
             }
         });
 
-        jButton11.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\disk.png")); // NOI18N
         jButton11.setText("Confimar");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -597,7 +632,7 @@ public class CadEmprestimo extends javax.swing.JFrame {
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addContainerGap(25, Short.MAX_VALUE)
+                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton11)
                             .addGap(18, 18, 18)
                             .addComponent(voltar1)
@@ -703,43 +738,37 @@ public class CadEmprestimo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_codigoLivroActionPerformed
 
-    private void dataEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataEmprestimoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dataEmprestimoActionPerformed
-
     private void NomeUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NomeUsuarioKeyReleased
         pesquisaUsuario();
     }//GEN-LAST:event_NomeUsuarioKeyReleased
 
     private void tabEmpUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabEmpUsuarioMouseClicked
         mostraItens();
+
+        String aux = StatusUsuario.getText();
+        GerenciaStrategy ger = new GerenciaStrategy(aux);
+
+        String aux2 = ger.verificador2();
+        dataDevolucao.setText(aux2);
+
     }//GEN-LAST:event_tabEmpUsuarioMouseClicked
 
     private void tabEmpLivroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabEmpLivroMouseClicked
         disponivel();
-     //   mostraItensLivro();
+        //   mostraItensLivro();
     }//GEN-LAST:event_tabEmpLivroMouseClicked
 
     private void codigoLivroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codigoLivroKeyReleased
         pesquisaLivro();
     }//GEN-LAST:event_codigoLivroKeyReleased
 
-    private void dataDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataDevolucaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dataDevolucaoActionPerformed
-
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparActionPerformed
-        NomeUsuario.setText("");
-        codigoLivro.setText("");
-        codLivro.setText("");
-        codUsuario.setText("");
-        nomeUsuario.setText("");
-        nomeLivro.setText("");
-        
+        limpar();
+
     }//GEN-LAST:event_limparActionPerformed
 
     private void voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarActionPerformed
@@ -748,18 +777,12 @@ public class CadEmprestimo extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_voltarActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-//        disponivel();
+    private void ConfimarEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfimarEmprestimoActionPerformed
+//      disponivel();
         Emprestimo();
-        NomeUsuario.setText("");
-        codigoLivro.setText("");
-        dataEmprestimo.setText("");
-        dataDevolucao.setText("");
-        codLivro.setText("");
-        codUsuario.setText("");
-        nomeUsuario.setText("");
-        nomeLivro.setText("");
-    }//GEN-LAST:event_jButton9ActionPerformed
+        limpar();
+
+    }//GEN-LAST:event_ConfimarEmprestimoActionPerformed
 
     private void codigoUsuarioDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codigoUsuarioDevolucaoActionPerformed
         // TODO add your handling code here:
@@ -782,9 +805,7 @@ public class CadEmprestimo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void limpar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpar1ActionPerformed
-         codigoUsuarioDevolucao.setText("");
-         dataEntrega.setText("");
-         codigoLivroDevolucao.setText("");
+        limpar();
     }//GEN-LAST:event_limpar1ActionPerformed
 
     private void voltar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltar1ActionPerformed
@@ -795,9 +816,9 @@ public class CadEmprestimo extends javax.swing.JFrame {
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         verificador();
-  //      codigoUsuarioDevolucao.setText("");
-  //      dataEntrega.setText("");
-  //      codigoLivroDevolucao.setText("");
+        //      codigoUsuarioDevolucao.setText("");
+        //      dataEntrega.setText("");
+        //      codigoLivroDevolucao.setText("");
 
 //        devolver();
     }//GEN-LAST:event_jButton11ActionPerformed
@@ -805,6 +826,18 @@ public class CadEmprestimo extends javax.swing.JFrame {
     private void codigoLivroDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codigoLivroDevolucaoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_codigoLivroDevolucaoActionPerformed
+
+    private void nomeUsuarioEscolhidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeUsuarioEscolhidoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nomeUsuarioEscolhidoActionPerformed
+
+    private void codUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_codUsuarioActionPerformed
+
+    private void dataDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataDevolucaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dataDevolucaoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -846,19 +879,20 @@ public class CadEmprestimo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ConfimarEmprestimo;
     private javax.swing.JTextField NomeUsuario;
+    private javax.swing.JTextField StatusUsuario;
     private javax.swing.JTextField codLivro;
     private javax.swing.JTextField codUsuario;
     private javax.swing.JTextField codigoLivro;
     private javax.swing.JTextField codigoLivroDevolucao;
     private javax.swing.JTextField codigoUsuarioDevolucao;
-    private javax.swing.JFormattedTextField dataDevolucao;
-    private javax.swing.JFormattedTextField dataEmprestimo;
+    private javax.swing.JTextField dataDevolucao;
+    private javax.swing.JTextField dataEmprestimo;
     private javax.swing.JFormattedTextField dataEntrega;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -868,6 +902,7 @@ public class CadEmprestimo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -881,7 +916,7 @@ public class CadEmprestimo extends javax.swing.JFrame {
     private javax.swing.JButton limpar;
     private javax.swing.JButton limpar1;
     private javax.swing.JTextField nomeLivro;
-    private javax.swing.JTextField nomeUsuario;
+    private javax.swing.JTextField nomeUsuarioEscolhido;
     private javax.swing.JTable tabDevolucao;
     private javax.swing.JTable tabEmpLivro;
     private javax.swing.JTable tabEmpUsuario;

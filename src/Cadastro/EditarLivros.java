@@ -34,7 +34,7 @@ public class EditarLivros extends javax.swing.JFrame {
     }
 
     public void pesquisaLivro(){
-        String sql = "Select idlivro,titulo,autor,edicao, editora, ano from TBlivro WHERE idlivro like ?";
+        String sql = "Select id_livro,titulo,autor,edicao, editora, ano from TBlivro WHERE id_livro like ?";
         try{
             pst = conecta.prepareStatement(sql);
             pst.setString(1, Id_livro.getText()+"%");// %para quando apagar trazer de volta as informações do BD.
@@ -47,7 +47,7 @@ public class EditarLivros extends javax.swing.JFrame {
     }
 
     public void listarLivros(){
-        String sql = "Select *from TBlivro order by idLivro Asc"; // order by codigo Desc ou Asc para ordenar
+        String sql = "Select *from TBlivro order by id_Livro Asc"; // order by codigo Desc ou Asc para ordenar
         try{
             pst = conecta.prepareStatement(sql);
             
@@ -70,7 +70,7 @@ public class EditarLivros extends javax.swing.JFrame {
     }
 
     public void EditarLivro2(){
-        String sql = "Update TBlivro set titulo = ?, autor = ?, edicao = ?, editora = ?, ano = ? WHERE idLivro = ?";
+        String sql = "Update tblivro set titulo = ?, autor = ?, edicao = ?, editora = ?, ano = ? WHERE id_Livro = ?";
         try{
             pst = conecta.prepareStatement(sql);
             
@@ -93,7 +93,7 @@ public class EditarLivros extends javax.swing.JFrame {
     }
 
     public void deletarLivro(){
-        String sql = "Delete from tblivro where idlivro = ?";
+        String sql = "Delete from tblivro where id_livro = ?";
         
         try{
             pst = conecta.prepareStatement(sql);

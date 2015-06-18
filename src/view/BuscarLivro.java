@@ -3,10 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package view;
 
+import FactoryMethod.FabricaLivros;
+import FactoryMethod.Livros;
+import FactoryMethod.fabricaDireito;
+import FactoryMethod.fabricaSistemas;
 import Util.Conexao;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 //import sistemabibliotecario.BuscaUsuario;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,6 +22,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import net.proteanit.sql.DbUtils;
 import view.TelaPrincipal;
 
@@ -28,86 +35,194 @@ public class BuscarLivro extends javax.swing.JFrame {
     Connection conecta;
     PreparedStatement pst;
     ResultSet rs;
-    
+  //  private String Dep;
+
     public BuscarLivro() throws ClassNotFoundException {
         initComponents();
         conecta = Conexao.conexao();
-       // listarLivros();
+        // listarLivros();
     }
 
-    public void listarLivros(){
-        String sql = "Select *from TBlivro order by idLivro Asc"; // order by codigo Desc ou Asc para ordenar
-        try{
+    public void listarLivros() {
+        String sql = "Select *from TBlivro order by id_Livro Asc"; // order by codigo Desc ou Asc para ordenar
+        try {
             pst = conecta.prepareStatement(sql);
-            
+
             rs = pst.executeQuery();
             tabBuscLivro.setModel(DbUtils.resultSetToTableModel(rs));
-         }
-        catch(SQLException error){
-            JOptionPane.showMessageDialog(null, error);
-        }
-    }
-    
-      public void pesquisaLivro(){
-        String sql = "Select idlivro,titulo,autor,edicao, editora, ano from TBlivro WHERE titulo like ?";
-        try{
-            pst = conecta.prepareStatement(sql);
-            pst.setString(1, tituloLivro.getText()+"%");// %para quando apagar trazer de volta as informações do BD.
-            rs = pst.executeQuery();
-            tabBuscLivro.setModel(DbUtils.resultSetToTableModel(rs));
-        }
-        catch(SQLException error){
+        } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, error);
         }
     }
 
-      public void pesquisaLivro1(){
-        String sql = "Select idlivro,titulo,autor,edicao, editora, ano from TBlivro WHERE idlivro like ?";
-        try{
+    public void pesquisaLivro() {
+        String sql = "Select id_livro,titulo,autor,edicao, editora, ano, curso from TBlivro WHERE titulo like ?";
+        try {
             pst = conecta.prepareStatement(sql);
-            pst.setString(1, codigoLivro.getText()+"%");// %para quando apagar trazer de volta as informações do BD.
+            pst.setString(1, tituloLivro.getText() + "%");// %para quando apagar trazer de volta as informações do BD.
             rs = pst.executeQuery();
             tabBuscLivro.setModel(DbUtils.resultSetToTableModel(rs));
-        }
-        catch(SQLException error){
+        } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, error);
         }
+    }
+
+    public void pesquisaLivro1() {
+        String sql = "Select id_livro,titulo,autor,edicao, editora, ano from TBlivro WHERE id_livro like ?";
+        try {
+            pst = conecta.prepareStatement(sql);
+            pst.setString(1, codigoLivro.getText() + "%");// %para quando apagar trazer de volta as informações do BD.
+            rs = pst.executeQuery();
+            tabBuscLivro.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error);
+        }
+    }
+
+    public void pesquisaLivro2() {
+        String sql = "Select id_livro,titulo,autor,edicao, editora, ano from TBlivro WHERE autor like ?";
+        try {
+            pst = conecta.prepareStatement(sql);
+            pst.setString(1, autorLivro.getText() + "%");// %para quando apagar trazer de volta as informações do BD.
+            rs = pst.executeQuery();
+            tabBuscLivro.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error);
+        }
+    }
+
+ /*   public void Departamento() {
+
+        if (this.Sistemas.isSelected()) {
+            tituloLivro.setEditable(true);
+            autorLivro.setEditable(true);
+            codigoLivro.setEditable(true);
+
+        }
+        if (this.Direito.isSelected()) {
+            tituloLivro.setEditable(true);
+            autorLivro.setEditable(true);
+            codigoLivro.setEditable(true);
+        }
+    }*/
+
+    public void MostrarItens(){
+        int seleciona = tabBuscLivro.getSelectedRow();
+        codigoLivro.setText(tabBuscLivro.getModel().getValueAt(seleciona, 0).toString());
+        tituloLivro.setText(tabBuscLivro.getModel().getValueAt(seleciona, 1).toString());
+        autorLivro.setText(tabBuscLivro.getModel().getValueAt(seleciona, 2).toString());
+        DepCurso.setText(tabBuscLivro.getModel().getValueAt(seleciona, 6).toString());
     }
     
-      public void pesquisaLivro2(){
-        String sql = "Select idlivro,titulo,autor,edicao, editora, ano from TBlivro WHERE autor like ?";
-        try{
-            pst = conecta.prepareStatement(sql);
-            pst.setString(1, autorLivro.getText()+"%");// %para quando apagar trazer de volta as informações do BD.
-            rs = pst.executeQuery();
-            tabBuscLivro.setModel(DbUtils.resultSetToTableModel(rs));
+    public void BuscaFactory() {
+       String aux1 = tituloLivro.getText();
+       String aux2 = DepCurso.getText();
+       
+       if (aux1.equals("Processo") && aux2.equals("Direito")){
+            FabricaLivros fabrica = new fabricaDireito();
+            Livros livros = fabrica.criaLivros2();
+            livros.exibirDados();
         }
-        catch(SQLException error){
-            JOptionPane.showMessageDialog(null, error);
+       else if (aux1.equals("intitulação") && aux2.equals("Direito")){
+            FabricaLivros fabrica = new fabricaDireito();
+            Livros livros = fabrica.criaLivros();
+            livros.exibirDados();
+        }
+        else if (aux1.equals("Java") && aux2.equals("Sistemas")){
+            FabricaLivros fabrica = new fabricaSistemas();
+            Livros livros = fabrica.criaLivros();
+            livros.exibirDados();
+        }
+        else if (aux1.equals("Banco de Dados") && aux2.equals("Sistemas")){
+            FabricaLivros fabrica = new fabricaSistemas();
+            Livros livros = fabrica.criaLivros2();
+            livros.exibirDados();
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Livro não Cadastrdo no FactoryMethod. ");
         }
     }
-      
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tituloLivro = new javax.swing.JTextField();
-        autorLivro = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        codigoLivro = new javax.swing.JTextField();
+        curso = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
         salvar = new javax.swing.JButton();
         voltar1 = new javax.swing.JButton();
         limpar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabBuscLivro = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        codigoLivro = new javax.swing.JTextField();
+        tituloLivro = new javax.swing.JTextField();
+        autorLivro = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        DepCurso = new javax.swing.JTextField();
+        Informacao = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(350, 150, 0, 0));
         setResizable(false);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        salvar.setText("Editar");
+        salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salvarActionPerformed(evt);
+            }
+        });
+
+        voltar1.setText("Voltar");
+        voltar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voltar1ActionPerformed(evt);
+            }
+        });
+
+        limpar.setText("Limpar");
+        limpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limparActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Cancelar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        tabBuscLivro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabBuscLivroMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tabBuscLivro);
+
+        jLabel2.setText("Autor:");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setText("Formulario de Busca de Livro");
+
+        jLabel4.setText("Codigo:");
+
+        codigoLivro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                codigoLivroActionPerformed(evt);
+            }
+        });
+        codigoLivro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                codigoLivroKeyReleased(evt);
+            }
+        });
 
         tituloLivro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,126 +248,115 @@ public class BuscarLivro extends javax.swing.JFrame {
 
         jLabel1.setText("Titulo:");
 
-        jLabel2.setText("Autor:");
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel3.setText("Formulario de Busca de Livro");
-
-        jLabel4.setText("Codigo:");
-
-        codigoLivro.addActionListener(new java.awt.event.ActionListener() {
+        DepCurso.setEditable(false);
+        DepCurso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                codigoLivroActionPerformed(evt);
+                DepCursoActionPerformed(evt);
             }
         });
-        codigoLivro.addKeyListener(new java.awt.event.KeyAdapter() {
+        DepCurso.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                codigoLivroKeyReleased(evt);
+                DepCursoKeyReleased(evt);
             }
         });
 
-        salvar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\disk.png")); // NOI18N
-        salvar.setText("Editar");
-        salvar.addActionListener(new java.awt.event.ActionListener() {
+        Informacao.setText("Informação");
+        Informacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                salvarActionPerformed(evt);
+                InformacaoActionPerformed(evt);
             }
         });
 
-        voltar1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\door_out.png")); // NOI18N
-        voltar1.setText("Voltar");
-        voltar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                voltar1ActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(salvar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Informacao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(voltar1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(limpar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(autorLivro, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                            .addComponent(tituloLivro)))
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(codigoLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(DepCurso))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
 
-        limpar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\paintbrush.png")); // NOI18N
-        limpar.setText("Limpar");
-        limpar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                limparActionPerformed(evt);
-            }
-        });
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton3, limpar, salvar, voltar1});
 
-        jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alberto\\Documents\\NetBeansProjects\\Projetos\\icones\\icons\\cancel.png")); // NOI18N
-        jButton3.setText("Cancelar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(tituloLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(codigoLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(autorLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DepCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(limpar)
+                    .addComponent(voltar1)
+                    .addComponent(salvar)
+                    .addComponent(Informacao))
+                .addContainerGap())
+        );
 
-        jScrollPane2.setViewportView(tabBuscLivro);
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton3, limpar, salvar, voltar1});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(autorLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(codigoLivro, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(tituloLivro)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(salvar)
-                                .addGap(18, 18, 18)
-                                .addComponent(voltar1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                                .addComponent(limpar)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3)))))
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton3, limpar, salvar, voltar1});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(tituloLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(autorLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(codigoLivro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(limpar)
-                    .addComponent(voltar1)
-                    .addComponent(salvar))
-                .addGap(25, 25, 25))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton3, limpar, salvar, voltar1});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -296,7 +400,7 @@ public class BuscarLivro extends javax.swing.JFrame {
     private void tituloLivroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tituloLivroKeyReleased
         pesquisaLivro();
         codigoLivro.setText("");
-        autorLivro.setText("");    
+        autorLivro.setText("");
     }//GEN-LAST:event_tituloLivroKeyReleased
 
     private void autorLivroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_autorLivroKeyReleased
@@ -306,6 +410,22 @@ public class BuscarLivro extends javax.swing.JFrame {
     private void codigoLivroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codigoLivroKeyReleased
         pesquisaLivro1();
     }//GEN-LAST:event_codigoLivroKeyReleased
+
+    private void DepCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DepCursoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DepCursoActionPerformed
+
+    private void DepCursoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DepCursoKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DepCursoKeyReleased
+
+    private void tabBuscLivroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabBuscLivroMouseClicked
+        MostrarItens();
+    }//GEN-LAST:event_tabBuscLivroMouseClicked
+
+    private void InformacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InformacaoActionPerformed
+        BuscaFactory();
+    }//GEN-LAST:event_InformacaoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,13 +467,17 @@ public class BuscarLivro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField DepCurso;
+    private javax.swing.JButton Informacao;
     private javax.swing.JTextField autorLivro;
     private javax.swing.JTextField codigoLivro;
+    private javax.swing.ButtonGroup curso;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton limpar;
     private javax.swing.JButton salvar;
@@ -361,4 +485,5 @@ public class BuscarLivro extends javax.swing.JFrame {
     private javax.swing.JTextField tituloLivro;
     private javax.swing.JButton voltar1;
     // End of variables declaration//GEN-END:variables
+
 }
